@@ -276,7 +276,10 @@ bool BufferCore::setTransform(const geometry_msgs::TransformStamped& transform_i
     }
     else
     {
-      CONSOLE_BRIDGE_logWarn((error_string+" for frame %s (parent %s) at time %lf according to authority %s").c_str(), stripped.child_frame_id.c_str(), stripped.header.frame_id.c_str(), stripped.header.stamp.toSec(), authority.c_str());
+      if (error_string.size())
+      {
+        CONSOLE_BRIDGE_logWarn((error_string+" for frame %s at time %lf according to authority %s").c_str(), stripped.child_frame_id.c_str(), stripped.header.stamp.toSec(), authority.c_str());
+      }
       return false;
     }
   }
