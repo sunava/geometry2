@@ -277,15 +277,6 @@ bool TimeCache::insertData(const TransformStorage& new_data, std::string* error_
   }
   if (storage_it != storage_.end() && storage_it->stamp_ == new_data.stamp_)
   {
-    // Throttle TF_REPEATED_DATA error message to 10 seconds.
-    // Console bridge does not have throttling, so implement throttling here.
-    // Because insertData may be called prior to ros::Time being initialized,
-    // use the stamp from the message as "now".
-    if (error_str && new_data.stamp_ > last_repeated_warn_time_ + ros::Duration(10.0))
-    {
-      last_repeated_warn_time_ = new_data.stamp_;
-      *error_str = "TF_REPEATED_DATA ignoring data with redundant timestamp";
-    }
     return false;
   }
   else
